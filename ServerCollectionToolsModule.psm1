@@ -1,0 +1,1 @@
+. "$PSScriptRoot\public\FunctionGet-ServerObjectCollection.ps1"

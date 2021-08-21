@@ -11,3 +11,20 @@ variables:
 
 pool:
   vmImage: "ubuntu-latest"
+
+stages:
+- stage: Test
+  jobs:
+  - job: Test
+    steps:
+    - task: Pester@10 ## If a new version is out, you may have to increment this
+      inputs:
+        scriptFolder: "$(System.DefaultWorkingDirectory)/ServerCollectionToolsModule.Tests.ps1"
+        resultsFile: "$(System.DefaultWorkingDirectory)/ServerCollectionToolsModule.Tests.XML"
+        usePSCore: true
+        run32Bit: False
+    - task: PublishTestResults@2
+      inputs:
+        testResultsFormat: "NUnit"
+        testResultsFiles: "$(System.DefaultWorkingDirectory)/ServerCollectionToolsModule.Tests.XML"
+        failTaskOnFailedTests: true
