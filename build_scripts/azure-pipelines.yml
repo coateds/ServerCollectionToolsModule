@@ -1,0 +1,13 @@
+trigger:
+  - master
+
+name: 'Server Collection Tools Module'
+
+variables:
+  major: 0
+  minor: 0
+  patch: $(Build.BuildID)
+  buildVer: $(major).$(minor).$(Build.BuildID)
+
+pool:
+  vmImage: "ubuntu-latest"
