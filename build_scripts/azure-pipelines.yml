@@ -19,7 +19,8 @@ stages:
     steps:
     - task: Pester@10 ## If a new version is out, you may have to increment this
       inputs:
-        scriptFolder: "$(System.DefaultWorkingDirectory)/ServerCollectionToolsModule.Tests.ps1"
+        #scriptFolder: "$(System.DefaultWorkingDirectory)/ServerCollectionToolsModule.Tests.ps1"
+        scriptFolder: "$(System.DefaultWorkingDirectory)/*"
         resultsFile: "$(System.DefaultWorkingDirectory)/ServerCollectionToolsModule.Tests.XML"
         usePSCore: true
         run32Bit: False
