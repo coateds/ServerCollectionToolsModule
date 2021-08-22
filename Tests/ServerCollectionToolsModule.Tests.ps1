@@ -11,4 +11,12 @@ Describe 'Module-Level tests' {
         #{ Import-Module "$PSScriptRoot\PowerShellModuleProject.psm1" } | should -not throw
         (Get-Command Get-ServerObjectCollection ).Source | Should -Be ServerCollectionToolsModule
     }
+
+    it 'the module has an associated psm1' {
+        Test-Path "$PSScriptRoot\..\PowerShellModuleProject.psm1" | should -Be $true
+    }
+
+    it 'the module has an associated manifest' {
+        Test-Path "$PSScriptRoot\..\PowerShellModuleProject.psd1" | should -Be $true
+    }
 }
