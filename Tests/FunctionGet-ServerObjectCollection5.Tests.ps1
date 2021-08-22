@@ -12,12 +12,12 @@ Describe 'Get-ServerObjectCollection.Tests' {
             $Actual | Should -BeOfType PSCustomObject
         }
 
-        #It 'Should have ComputerName Property' {
-        #    $TestDrive
-        #    $TestFile = "out.csv"
-        #    $Actual | export-csv "$($TestDrive)\$($TestFile)"
-        #    $FirstLine = Get-Content "$($TestDrive)\$($TestFile)"
-        #    $FirstLine[1] | Should -Be '"ComputerName"'
-        #}
+        It 'Should have ComputerName Property' {
+            $TestDrive
+            $TestFile = "out.csv"
+            $Actual | export-csv "$($TestDrive)\$($TestFile)"
+            $FirstLine = Get-Content "$($TestDrive)\$($TestFile)"
+            $FirstLine[1] | Should -Be '"ComputerName"'
+        }
     }
 }

@@ -10,7 +10,7 @@ variables:
   buildVer: $(major).$(minor).$(Build.BuildID)
 
 pool:
-  vmImage: "ubuntu-latest"
+  vmImage: "windows-latest"
 
 stages:
 - stage: Test
