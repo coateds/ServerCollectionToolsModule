@@ -13,11 +13,7 @@ Describe 'Get-ServerObjectCollection.Tests' {
         }
 
         It 'Should have ComputerName Property' {
-            $TestDrive
-            $TestFile = "out.csv"
-            $Actual | export-csv "$($TestDrive)\$($TestFile)"
-            $FirstLine = Get-Content "$($TestDrive)\$($TestFile)"
-            $FirstLine[1] | Should -Be '"ComputerName"'
+            ($null -ne $Actual.ComputerName) | Should -Be $true
         }
     }
 }
