@@ -10,7 +10,7 @@ variables:
   buildVer: $(major).$(minor).$(Build.BuildID)
 
 pool:
-  vmImage: "windows-latest"
+  vmImage: "ubuntu-latest"
 
 stages:
 - stage: Test
@@ -19,7 +19,6 @@ stages:
     steps:
     - task: Pester@10 ## If a new version is out, you may have to increment this
       inputs:
-        #scriptFolder: "$(System.DefaultWorkingDirectory)/ServerCollectionToolsModule.Tests.ps1"
         scriptFolder: "$(System.DefaultWorkingDirectory)/*"
         resultsFile: "$(System.DefaultWorkingDirectory)/ServerCollectionToolsModule.Tests.XML"
         usePSCore: true
