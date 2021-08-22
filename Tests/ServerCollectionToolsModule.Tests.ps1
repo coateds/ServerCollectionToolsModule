@@ -13,10 +13,10 @@ Describe 'Module-Level tests' {
     }
 
     it 'the module has an associated psm1' {
-        Test-Path "$PSScriptRoot\..\PowerShellModuleProject.psm1" | should -Be $true
+        Test-Path "$PSScriptRoot\..\ServerCollectionToolsModule.psm1" | should -Be $true
     }
 
     it 'the module has an associated manifest' {
-        Test-Path "$PSScriptRoot\..\PowerShellModuleProject.psd1" | should -Be $true
+        Test-Path "$PSScriptRoot\..\ServerCollectionToolsModule.psd1" | should -Be $true
     }
 }

@@ -1,6 +1,8 @@
 Describe 'Get-ServerObjectCollection.Tests' {
     Context 'Output test' {
         BeforeAll {
+            Import-Module "$PSScriptRoot\..\ServerCollectionToolsModule.psm1" -Force
+            
             $Actual = ('Server1', 'Server2') | Get-ServerObjectCollection
 
             $Actual
