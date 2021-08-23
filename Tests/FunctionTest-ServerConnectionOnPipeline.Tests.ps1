@@ -30,7 +30,7 @@ Describe 'Test-ServerConnectionOnPipeline.Tests' {
         #}
 
         It 'Should have Ping Property' {
-            ($null -ne $Actual.Ping) | Should -Be $true
+            ($null -ne $Actual.Pings) | Should -Be $true
         }
 
         It 'Ping should have failed' {
