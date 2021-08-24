@@ -6,5 +6,5 @@ Return is the the remote computer's name when sucessfully connects, Null when it
 Function Get-PSRemoteComputerName  ($ComputerName)
     {
     Try {Invoke-Command -ComputerName $ComputerName -ScriptBlock {1} -ErrorAction Stop}
-    Catch {} 
+    Catch {$null} 
     }

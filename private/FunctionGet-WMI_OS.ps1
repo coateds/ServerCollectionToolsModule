@@ -7,5 +7,5 @@ Function Get-WMI_OS ($ComputerName)
     {
     
     Try {Get-Wmiobject -ComputerName $ComputerName -Class Win32_OperatingSystem -ErrorAction Stop}
-    Catch {}
+    Catch {$null}
     }
