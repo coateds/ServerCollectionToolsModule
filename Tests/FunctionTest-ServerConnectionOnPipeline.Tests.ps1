@@ -74,7 +74,7 @@ Describe 'Test-ServerConnectionOnPipeline.Tests' {
     
             Mock -CommandName Get-WMI_OS -ModuleName ServerCollectionToolsModule -MockWith {
                 return [PSCustomObject]@{
-                    LastBootUpTime = '20210526203558.301043-420'
+                    LastBootUpTime = '20210526203558.301043-000'
                 }
             }
     
@@ -91,7 +91,7 @@ Describe 'Test-ServerConnectionOnPipeline.Tests' {
             $Actual[0].ping | Should -Be $true
             $Actual[0].WMI | Should -Be $true
             $Actual[0].PSRemote | Should -Be $false
-            [string]$Actual[0].BootTime | Should -Be '05/26/2021 20:35:58'
+            [string]$Actual[0].BootTime | Should -Be '05/26/2021 13:35:58'
         }
     }
 }
