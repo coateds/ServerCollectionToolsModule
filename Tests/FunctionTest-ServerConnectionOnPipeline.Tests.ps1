@@ -68,22 +68,22 @@ Describe 'Test-ServerConnectionOnPipeline.Tests' {
 
     Context 'Output test - Ping Success, WMI Success, PSRemote Fail' {
         BeforeAll {
-            Mock -CommandName Test-Connection -ModuleName RCMonitoringModule -MockWith {
+            Mock -CommandName Test-Connection -ModuleName ServerCollectionToolsModule -MockWith {
                 return $true
             }
     
-            Mock -CommandName Get-WMI_OS -ModuleName RCMonitoringModule -MockWith {
+            Mock -CommandName Get-WMI_OS -ModuleName ServerCollectionToolsModule -MockWith {
                 return [PSCustomObject]@{
                     LastBootUpTime = '20210526203558.301043-420'
                 }
             }
     
-            Mock -CommandName Get-PSRemoteComputerName -ModuleName RCMonitoringModule -MockWith {
+            Mock -CommandName Get-PSRemoteComputerName -ModuleName ServerCollectionToolsModule -MockWith {
                 return $null
             }
     
-            $Actual = ('Server1', 'Server2') | Get-RCServerObjectCollection | 
-            Test-RCServerConnectionOnPipeline
+            $Actual = ('Server1', 'Server2') | Get-ServerObjectCollection | 
+                Test-ServerConnectionOnPipeline
             $Actual
         }
 
