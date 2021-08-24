@@ -94,4 +94,31 @@ Describe 'Test-ServerConnectionOnPipeline.Tests' {
             $Actual[0].BootTime | Should -BeOfType DateTime
         }
     }
+
+    Context 'Output test - Ping Success, WMI Fail, PSRemote Success' {
+        BeforeAll {
+            Mock -CommandName Test-Connection -ModuleName ServerCollectionToolsModule -MockWith {
+                return $true
+            }
+    
+            Mock -CommandName Get-WMI_OS -ModuleName ServerCollectionToolsModule -MockWith {
+                return $null
+            }
+    
+            Mock -CommandName Get-PSRemoteComputerName -ModuleName ServerCollectionToolsModule -MockWith {
+                return $true
+            }
+
+            $Actual = ('Server1', 'Server2') | Get-ServerObjectCollection | 
+                Test-ServerConnectionOnPipeline
+            $Actual
+        }
+
+        It 'Ping and PSRemote but not WMI' {
+            $Actual[0].ping | Should -Be $true
+            $Actual[0].WMI | Should -Be $false
+            $Actual[0].PSRemote | Should -Be $true
+            $Actual[0].BootTime | Should -Be 'No Try'
+        }
+    }
 }
