@@ -91,7 +91,7 @@ Describe 'Test-ServerConnectionOnPipeline.Tests' {
             $Actual[0].ping | Should -Be $true
             $Actual[0].WMI | Should -Be $true
             $Actual[0].PSRemote | Should -Be $false
-            [string]$Actual[0].BootTime | Should -Be '05/26/2021 13:35:58'
+            $Actual[0].BootTime | Should -BeOfType DateTime
         }
     }
 }
