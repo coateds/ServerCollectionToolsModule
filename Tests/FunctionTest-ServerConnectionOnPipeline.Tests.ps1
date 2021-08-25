@@ -5,7 +5,6 @@ Describe 'Test-ServerConnectionOnPipeline.Tests' {
     
     Context 'Output test - Ping Fail' {
         BeforeAll {
-            #Import-Module "$PSScriptRoot\..\ServerCollectionToolsModule.psm1" -Force
             Mock -CommandName Test-Connection -ModuleName ServerCollectionToolsModule -MockWith {
                 return $false
             }
@@ -37,8 +36,6 @@ Describe 'Test-ServerConnectionOnPipeline.Tests' {
 
     Context 'Output test - Ping Success, WMI Fail, PSRemote Fail' {
         BeforeAll {
-            #Import-Module "$PSScriptRoot\..\ServerCollectionToolsModule.psm1" -Force
-
             Mock -CommandName Test-Connection -ModuleName ServerCollectionToolsModule -MockWith {
                 return $true
             }
@@ -54,8 +51,6 @@ Describe 'Test-ServerConnectionOnPipeline.Tests' {
             $Actual = ('Server1', 'Server2') | Get-ServerObjectCollection | 
                 Test-ServerConnectionOnPipeline
             $Actual
-            #$MemberArray = $Actual | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name
-            #$MemberArray
         }
 
         It 'Ping, but not WMI or PSRemote' {

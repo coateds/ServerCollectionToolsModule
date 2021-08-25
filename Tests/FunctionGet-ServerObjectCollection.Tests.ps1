@@ -5,15 +5,21 @@ Describe 'Get-ServerObjectCollection.Tests' {
             
             $Actual = ('Server1', 'Server2') | Get-ServerObjectCollection
 
-            $Actual
+            $MemberArray = $Actual | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name
+            $MemberArray
         }
 
         It 'Should return a custom object' {
             $Actual | Should -BeOfType PSCustomObject
         }
 
+        # This test only works on the original object. No added properties
+        # It 'Should have ComputerName Property' {
+        #     ($null -ne $Actual.ComputerName) | Should -Be $true
+        # }
+
         It 'Should have ComputerName Property' {
-            ($null -ne $Actual.ComputerName) | Should -Be $true
+            $MemberArray | Should -Contain 'ComputerName'
         }
     }
 }
