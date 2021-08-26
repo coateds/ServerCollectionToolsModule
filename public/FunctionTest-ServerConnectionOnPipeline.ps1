@@ -15,7 +15,7 @@ Function Test-ServerConnectionOnPipeline
             convenient input is a list of stings such as from a text file or the output of an AD Call
             the use Get-ServerObjectCollection to create an object from the list
         .EXAMPLE
-            Get-MyServerCollection | Test-ServerConnectionOnPipeline | ft
+            Get-ServerCollection | Test-ServerConnectionOnPipeline | ft
         .EXAMPLE
             ('Server2','Server4') | Get-ServerObjectCollection | Test-ServerConnectionOnPipeline | ft
 
