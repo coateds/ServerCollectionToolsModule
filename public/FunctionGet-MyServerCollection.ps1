@@ -28,7 +28,7 @@ Function Get-MyServerCollection
    )
 
    $ScriptPath = $PSScriptRoot
-   $ComputerNames = 'Servers.csv'
+   $ComputerNames = '..\Servers.csv'
 
    If ($Role -ne "")  {$ModRole = $Role}
       Else {$ModRole = "*"}

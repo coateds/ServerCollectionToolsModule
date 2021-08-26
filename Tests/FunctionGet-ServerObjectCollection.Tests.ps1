@@ -6,7 +6,7 @@ Describe 'Get-ServerObjectCollection.Tests' {
             $Actual = ('Server1', 'Server2') | Get-ServerObjectCollection
 
             $MemberArray = $Actual | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name
-            $MemberArray
+            $MemberArray | Out-Null
         }
 
         It 'Should return a custom object' {
