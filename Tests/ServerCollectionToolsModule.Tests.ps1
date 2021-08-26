@@ -26,7 +26,6 @@ Describe 'Module-Level tests' {
     }
 
     it 'the module imports successfully' {
-        #{ Import-Module "$PSScriptRoot\PowerShellModuleProject.psm1" } | should -not throw
         (Get-Command Get-ServerObjectCollection ).Source | Should -Be ServerCollectionToolsModule
     }
 
@@ -56,9 +55,9 @@ Describe 'Per public file tests' -ForEach $PublicScriptFiles {
 }
 
 Describe 'Per private file tests' -ForEach $PrivateScriptFiles {
-    # It 'Script Analyzer' {
-    #     Invoke-ScriptAnalyzer -Path "$PSScriptRoot\..\private\$PSItem.ps1" | should -BeNullOrEmpty
-    # }
+    It 'Script Analyzer' {
+        Invoke-ScriptAnalyzer -Path "$PSScriptRoot\..\private\$PSItem.ps1" | should -BeNullOrEmpty
+    }
 
     It 'Should be an advanced function' {
         $ScriptContents = Get-Content -Path "$PSScriptRoot\..\private\$PSItem.ps1" -Raw

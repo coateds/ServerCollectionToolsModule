@@ -12,17 +12,11 @@ Function Get-PSRemoteComputerName
     #>
 
     [CmdletBinding()]
-    
+
     Param (
         [string]$ComputerName
     )
-    
+
     Try {Invoke-Command -ComputerName $ComputerName -ScriptBlock {1} -ErrorAction Stop}
-    Catch {$null} 
+    Catch {$null}
 }
-
-
-
-<#
-
-#>

@@ -44,7 +44,9 @@ Function Test-ServerConnectionOnPipeline
 
                 If ($null -ne $os)
                     {
-                    $PSItem.BootTime = [Management.ManagementDateTimeConverter]::ToDateTime($os.LastBootUpTime)
+                    # This conversion not necessare with ciminstance?
+                    # $PSItem.BootTime = [Management.ManagementDateTimeConverter]::ToDateTime($os.LastBootUpTime)
+                    $PSItem.BootTime = $os.LastBootUpTime
                     $PSItem.WMI = $true
                     }
                 Else

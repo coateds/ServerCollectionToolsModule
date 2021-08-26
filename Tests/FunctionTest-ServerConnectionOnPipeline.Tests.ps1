@@ -86,7 +86,9 @@ Describe 'Test-ServerConnectionOnPipeline.Tests' {
             $Actual[0].ping | Should -Be $true
             $Actual[0].WMI | Should -Be $true
             $Actual[0].PSRemote | Should -Be $false
-            $Actual[0].BootTime | Should -BeOfType DateTime
+            # The change to get-ciminstance changed the type here
+            # $Actual[0].BootTime | Should -BeOfType DateTime
+            $Actual[0].BootTime | Should -BeOfType string
         }
     }
 

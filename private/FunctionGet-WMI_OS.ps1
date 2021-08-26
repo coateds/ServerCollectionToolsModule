@@ -17,6 +17,9 @@ Function Get-WMI_OS
         [string]$ComputerName
     )
 
-    Try {Get-Wmiobject -ComputerName $ComputerName -Class Win32_OperatingSystem -ErrorAction Stop}
+    Try {
+        # Get-Wmiobject -ComputerName $ComputerName -Class Win32_OperatingSystem -ErrorAction Stop
+        Get-CimInstance -ComputerName $ComputerName -ClassName Win32_OperatingSystem -ErrorAction Stop
+    }
     Catch {$null}
 }
