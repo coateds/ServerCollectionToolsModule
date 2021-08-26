@@ -1,17 +1,17 @@
-Function Get-ServerObjectCollection 
+Function Get-ServerObjectCollection
 {
-    <# 
-        .Synopsis 
+    <#
+        .Synopsis
             Converts a collection of Server Name Strings into a Colection of objects
-        .DESCRIPTION 
+        .DESCRIPTION
             This function will take a random list of servers, such as an array or txt file
-            and convert it on the pipeline to a collection of PSObjects. This collection 
+            and convert it on the pipeline to a collection of PSObjects. This collection
             will function exactly like an imported CSV with ComputerName as the column heading.
-        .EXAMPLE 
+        .EXAMPLE
             ('Server2','Server4') | Get-ServerObjectCollection | Test-ServerConnectionOnPipeline | ft
-        .EXAMPLE 
+        .EXAMPLE
             Get-Content -Path .\RndListOfServers.txt | Get-ServerObjectCollection | Test-ServerConnectionOnPipeline | ft
-        .EXAMPLE 
+        .EXAMPLE
             (Get-ADComputer -Filter *).Name | Get-ServerObjectCollection | Test-ServerConnectionOnPipeline | ft
             Active Directory!! (All Computers)
         .EXAMPLE
@@ -27,11 +27,11 @@ Function Get-ServerObjectCollection
         $ComputerName
     )
 
+    Begin {$ComputerName}
     Process {
         # New-Object PSObject -Property @{'ComputerName' = $PSItem} Original
         [PSCustomObject]@{
             'ComputerName' = $PSItem
         }
     }
-    
 }

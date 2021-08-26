@@ -1,8 +1,13 @@
-if (!(Get-Module -ListAvailable -Name PSScriptAnalyzer)) {
-    #"Module not installed"
-    Install-Module -Name PSScriptAnalyzer -Force
-}
+BeforeDiscovery {
+    if (!(Get-Module -ListAvailable -Name PSScriptAnalyzer)) {
+        #"Module not installed"
+        Install-Module -Name PSScriptAnalyzer -Force
+    }
 
+    $ModuleRoot = (Resolve-Path "$PSScriptRoot\..\public").Path
+    $PublicScriptFiles = (Get-ChildItem $ModuleRoot -Exclude Execute*, *Research* | Where-Object Name -like "*.ps1").BaseName
+    $PublicScriptFiles
+}
 
 Describe 'Module-Level tests' {
     BeforeAll {
@@ -28,5 +33,13 @@ Describe 'Module-Level tests' {
 
     it 'passes all default PSScriptAnalyzer rules' {
         Invoke-ScriptAnalyzer -Path "$PSScriptRoot\..\ServerCollectionToolsModule.psm1" | should -BeNullOrEmpty
+    }
+}
+
+Describe 'Per file tests' -ForEach $PublicScriptFiles {
+    It 'Script Analyzer' {
+        # Write-Warning $PSItem
+
+        Invoke-ScriptAnalyzer -Path "$PSScriptRoot\..\public\$PSItem.ps1" | should -BeNullOrEmpty
     }
 }

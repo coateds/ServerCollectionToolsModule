@@ -1,20 +1,20 @@
 Function Test-ServerConnectionOnPipeline
 {
-    <# 
-        .Synopsis 
+    <#
+        .Synopsis
             Runs availability checks on servers
-        .DESCRIPTION 
+        .DESCRIPTION
             This typically takes an imported csv file with a ComputerName Column as an imput object
             but just about any collection of objects that exposes .ComputerName should work
-            The output is the same type of object as the input (hopefully) so that it can be piped 
+            The output is the same type of object as the input (hopefully) so that it can be piped
             to the next function to add another column.
             Makes both a WMI and PS Remote call
 
             This very intentionally takes an object with .ComputerName as one of its properties because
-            it is adding columns to that object and then passing it along to the next cmdlet. If the most 
+            it is adding columns to that object and then passing it along to the next cmdlet. If the most
             convenient input is a list of stings such as from a text file or the output of an AD Call
             the use Get-ServerObjectCollection to create an object from the list
-        .EXAMPLE 
+        .EXAMPLE
             Get-MyServerCollection | Test-ServerConnectionOnPipeline | ft
         .EXAMPLE
             ('Server2','Server4') | Get-ServerObjectCollection | Test-ServerConnectionOnPipeline | ft
@@ -26,7 +26,7 @@ Function Test-ServerConnectionOnPipeline
 
     Param (
         [parameter(
-        Mandatory=$true, 
+        Mandatory=$true,
         ValueFromPipeline=$true)]
         $ComputerProperties
     )
@@ -42,9 +42,9 @@ Function Test-ServerConnectionOnPipeline
                 $os = Get-WMI_OS -ComputerName $ComputerProperties.ComputerName
                 # $os = Get-Wmiobject -ComputerName $ComputerProperties.ComputerName -Class Win32_OperatingSystem -ErrorAction Stop
 
-                If ($null -ne $os) 
+                If ($null -ne $os)
                     {
-                    $PSItem.BootTime = [Management.ManagementDateTimeConverter]::ToDateTime($os.LastBootUpTime) 
+                    $PSItem.BootTime = [Management.ManagementDateTimeConverter]::ToDateTime($os.LastBootUpTime)
                     $PSItem.WMI = $true
                     }
                 Else
@@ -57,7 +57,7 @@ Function Test-ServerConnectionOnPipeline
                 $ps = Get-PSRemoteComputerName -ComputerName $ComputerProperties.ComputerName
                 # $Result = Invoke-Command -ComputerName $ComputerProperties.ComputerName -ScriptBlock {$env:COMPUTERNAME} -ErrorAction Stop
 
-                If ($null -ne $ps) 
+                If ($null -ne $ps)
                     {$PSItem.PSRemote = $true}
                 Else
                     {$PSItem.PSRemote = $false}
