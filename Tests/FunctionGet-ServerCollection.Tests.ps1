@@ -5,8 +5,6 @@ Describe 'Get-MyServerCollection Tests' {
             
             $Actual = Get-ServerCollection -Role SQL -Location WA
 
-            Write-Warning "In Test Script"
-
             $MemberArray = $Actual | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name
             $MemberArray | Out-Null
         }
