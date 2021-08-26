@@ -19,7 +19,9 @@ Function Get-ServerObjectCollection
             Active Directory!! (Just Domain Controllers)
     #>
 
-    Param(
+    [CmdletBinding()]
+
+    Param (
         [parameter(
         Mandatory=$true,
         ValueFromPipeline= $true)]
