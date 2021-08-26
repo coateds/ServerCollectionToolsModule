@@ -1,4 +1,6 @@
 Describe 'FunctionGet-RCMachineModelOnPipeline.Tests' {
+    Import-Module "$PSScriptRoot\..\ServerCollectionToolsModule.psm1" -Force
+    
     BeforeAll {
         Mock -CommandName Get-CimInstance -ModuleName ServerCollectionToolsModule -MockWith {
             return (
