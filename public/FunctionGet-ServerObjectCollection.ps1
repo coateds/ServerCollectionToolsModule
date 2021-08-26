@@ -27,11 +27,9 @@ Function Get-ServerObjectCollection
         $ComputerName
     )
 
-    Begin {$ComputerName}
     Process {
-        # New-Object PSObject -Property @{'ComputerName' = $PSItem} Original
         [PSCustomObject]@{
-            'ComputerName' = $PSItem
+            'ComputerName' = $ComputerName
         }
     }
 }
