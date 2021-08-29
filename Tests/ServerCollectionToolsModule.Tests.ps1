@@ -43,7 +43,7 @@ Describe 'Module-Level tests' {
 }
 
 Describe 'Per public file tests' -ForEach $PublicScriptFiles {
-    It 'Script Analyzer' {
+    It "Script Analyzer for $PSItem" {
         Invoke-ScriptAnalyzer -Path "$PSScriptRoot\..\public\$PSItem.ps1" | should -BeNullOrEmpty
     }
 
