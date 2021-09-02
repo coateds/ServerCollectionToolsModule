@@ -42,7 +42,7 @@ Describe 'Module-Level tests' {
     }
 }
 
-Describe 'Per public file tests' -ForEach $PublicScriptFiles {
+Describe 'Public file tests' -ForEach $PublicScriptFiles {
     It "Script Analyzer for $PSItem" {
         Invoke-ScriptAnalyzer -Path "$PSScriptRoot\..\public\$PSItem.ps1" | should -BeNullOrEmpty
     }
@@ -69,18 +69,20 @@ Describe 'Per private file tests' -ForEach $PrivateScriptFiles {
 Describe 'Each Function' -ForEach $Functions {
     Context "Pester Tests for $PSItem" {
         BeforeAll {
-            # Write-Warning $PSItem.Name | Out-String
-            
             $objGetHelp = Get-Help $($PSItem.Name)
             $objGetHelp | Out-Null
             $Help = Get-Help -Name $PSItem -Full
             $Help | Out-Null
+
+            #$AST = [System.Management.Automation.Language.Parser]::ParseInput((Get-Content function:$Function), [ref]$null, [ref]$null)
+            #$AST | Out-Null
         }
 
         # This one does not work quite as expected
         It 'Should have a Synopsis' {
-            $objGetHelp.Synopsis | Should -not -BeLike "*<Object>*"
-            $objGetHelp | Out-Null
+            $Help.Synopsis.Trim() | Should -Not -BeLike "$($PSItem.Name)*"
+
+            $help.Synopsis | Should -not -BeNullOrEmpty
         }
         
         It 'Should have a Help Description' {
