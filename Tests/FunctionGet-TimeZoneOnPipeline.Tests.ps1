@@ -29,9 +29,10 @@ Describe 'Get-TimeZoneOnPipeline.Tests' {
             $obj | Get-TimeZoneOnPipeline | Should -BeOfType PSCustomObject
         }
 
-        It 'Should return Pacific Timezone' {
-            ($obj | Get-TimeZoneOnPipeline).TimeZone | Should -Be 'Pacific Standard Time'
-        }
+        # This is no longer a Unit Test
+        # It 'Should return Pacific Timezone' {
+        #     ($obj | Get-TimeZoneOnPipeline).TimeZone | Should -Be 'Pacific Standard Time'
+        # }
 
         It 'Should have 1 new property' {
             $MemberArray = $obj | Get-TimeZoneOnPipeline -NoErrorCheck | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name
