@@ -21,7 +21,7 @@ Describe 'FunctionGet-RCVolumeInfoOnPipeline.Tests' {
             }
             $obj | Out-Null
 
-            $Actual = ($obj | Get-VolumeInfoOnPipeline -NoErrorCheck)[0]
+            $Actual = ($obj | Get-VolumeInfoOnPipeline -NoErrorCheck)
             $Actual | Out-Null
         }
 
