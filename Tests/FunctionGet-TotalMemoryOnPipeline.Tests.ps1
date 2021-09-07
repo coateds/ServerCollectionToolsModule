@@ -22,7 +22,7 @@ Describe 'Get-RCTotalMemoryOnPipeline.Tests' {
         }
 
         It 'Should return a custom object' {
-            $obj | Get-TotalMemoryOnPipeline | Should -BeOfType PSCustomObject
+            $obj | Get-TotalMemoryOnPipeline -NoErrorCheck | Should -BeOfType PSCustomObject
         }
 
         It 'Should have 1 new property' {

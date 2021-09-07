@@ -60,23 +60,23 @@ Describe 'Get-ProcInfoOnPipeline.Tests Single Proc' {
         }
         
         It 'Should have 1 proc' {
-            ($obj | Get-ProcInfoOnPipeline -NoErrorCheck).TotalProcs | Should -Be 1
+            ($obj | Get-ProcInfoOnPipeline).TotalProcs | Should -Be 1
         }
         
         It 'Should be of ProcName MyProcName' {
-            ($obj | Get-ProcInfoOnPipeline -NoErrorCheck).ProcName | Should -Be 'MyProcName'
+            ($obj | Get-ProcInfoOnPipeline).ProcName | Should -Be 'MyProcName'
         }
 
         It 'Should have 16 cores' {
-            ($obj | Get-ProcInfoOnPipeline -NoErrorCheck).Cores | Should -Be 16
+            ($obj | Get-ProcInfoOnPipeline).Cores | Should -Be 16
         }
 
         It 'Should be 64 bit' {
-            ($obj | Get-ProcInfoOnPipeline -NoErrorCheck).DataWidth | Should -Be 64
+            ($obj | Get-ProcInfoOnPipeline).DataWidth | Should -Be 64
         }
 
         It 'Should return a custom object' {
-            $obj | Get-ProcInfoOnPipeline -NoErrorCheck | Should -BeOfType PSCustomObject
+            $obj | Get-ProcInfoOnPipeline | Should -BeOfType PSCustomObject
         }
 
         It 'Should have 4 new properties' {
@@ -119,7 +119,7 @@ Describe 'Get-ProcInfoOnPipeline.Tests Single Proc' {
         }
 
         It 'Should have 4 new properties' {
-            $MemberArray = $obj | Get-ProcInfoOnPipeline -NoErrorCheck | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name
+            $MemberArray = $obj | Get-ProcInfoOnPipeline | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name
             $MemberArray | Should -Contain 'TotalProcs'
             $MemberArray | Should -Contain 'ProcName'
             $MemberArray | Should -Contain 'Cores'
@@ -158,7 +158,7 @@ Describe 'Get-ProcInfoOnPipeline.Tests Single Proc' {
         }
 
         It 'Should have 4 new properties' {
-            $MemberArray = $obj | Get-ProcInfoOnPipeline -NoErrorCheck | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name
+            $MemberArray = $obj | Get-ProcInfoOnPipeline | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name
             $MemberArray | Should -Contain 'TotalProcs'
             $MemberArray | Should -Contain 'ProcName'
             $MemberArray | Should -Contain 'Cores'

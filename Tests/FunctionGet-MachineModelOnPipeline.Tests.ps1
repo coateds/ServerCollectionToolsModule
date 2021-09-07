@@ -1,4 +1,4 @@
-Describe 'FunctionGet-RCMachineModelOnPipeline.Tests' {
+Describe 'FunctionGet-MachineModelOnPipeline.Tests' {
     Import-Module "$PSScriptRoot\..\ServerCollectionToolsModule.psm1" -Force
     
     BeforeAll {
@@ -18,15 +18,15 @@ Describe 'FunctionGet-RCMachineModelOnPipeline.Tests' {
         }
 
         It 'Should be of Model AnyModel' {
-            ($obj | Get-RCMachineModelOnPipeline -NoErrorCheck).MachineModel | Should -Be 'AnyModel'
+            ($obj | Get-MachineModelOnPipeline -NoErrorCheck).MachineModel | Should -Be 'AnyModel'
         }
 
         It 'Should return a custom object' {
-            $obj | Get-RCMachineModelOnPipeline -NoErrorCheck | Should -BeOfType PSCustomObject
+            $obj | Get-MachineModelOnPipeline -NoErrorCheck | Should -BeOfType PSCustomObject
         }
 
         It 'Should have 1 new property' {
-            $MemberArray = $obj | Get-RCMachineModelOnPipeline -NoErrorCheck | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name
+            $MemberArray = $obj | Get-MachineModelOnPipeline -NoErrorCheck | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name
             $MemberArray | Should -Contain 'MachineModel'
         }
     }
@@ -42,15 +42,15 @@ Describe 'FunctionGet-RCMachineModelOnPipeline.Tests' {
         }
 
         It 'Should be of Model AnyModel' {
-            ($obj | Get-RCMachineModelOnPipeline).MachineModel | Should -Be 'AnyModel'
+            ($obj | Get-MachineModelOnPipeline).MachineModel | Should -Be 'AnyModel'
         }
 
         It 'Should return a custom object' {
-            $obj | Get-RCMachineModelOnPipeline | Should -BeOfType PSCustomObject
+            $obj | Get-MachineModelOnPipeline | Should -BeOfType PSCustomObject
         }
 
         It 'Should have 1 new property' {
-            $MemberArray = $obj | Get-RCMachineModelOnPipeline -NoErrorCheck | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name
+            $MemberArray = $obj | Get-MachineModelOnPipeline | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name
             $MemberArray | Should -Contain 'MachineModel'
         }
     }
@@ -66,15 +66,15 @@ Describe 'FunctionGet-RCMachineModelOnPipeline.Tests' {
         }
 
         It 'Should be of Model No Try' {
-            ($obj | Get-RCMachineModelOnPipeline).MachineModel | Should -Be 'No Try'
+            ($obj | Get-MachineModelOnPipeline).MachineModel | Should -Be 'No Try'
         }
 
         It 'Should return a custom object' {
-            $obj | Get-RCMachineModelOnPipeline | Should -BeOfType PSCustomObject
+            $obj | Get-MachineModelOnPipeline | Should -BeOfType PSCustomObject
         }
 
         It 'Should have 1 new property' {
-            $MemberArray = $obj | Get-RCMachineModelOnPipeline -NoErrorCheck | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name
+            $MemberArray = $obj | Get-MachineModelOnPipeline | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name
             $MemberArray | Should -Contain 'MachineModel'
         }
     }
@@ -90,15 +90,15 @@ Describe 'FunctionGet-RCMachineModelOnPipeline.Tests' {
         }
 
         It 'Should be of Model AnyModel' {
-            ($obj | Get-RCMachineModelOnPipeline).MachineModel | Should -Be 'No Try'
+            ($obj | Get-MachineModelOnPipeline).MachineModel | Should -Be 'No Try'
         }
 
         It 'Should return a custom object' {
-            $obj | Get-RCMachineModelOnPipeline | Should -BeOfType PSCustomObject
+            $obj | Get-MachineModelOnPipeline | Should -BeOfType PSCustomObject
         }
 
         It 'Should have 1 new property' {
-            $MemberArray = $obj | Get-RCMachineModelOnPipeline -NoErrorCheck | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name
+            $MemberArray = $obj | Get-MachineModelOnPipeline | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name
             $MemberArray | Should -Contain 'MachineModel'
         }
     }

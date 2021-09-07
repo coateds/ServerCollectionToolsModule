@@ -1,4 +1,4 @@
-Function Get-RCMachineModelOnPipeline
+Function Get-MachineModelOnPipeline
 {
     <#
         .Synopsis

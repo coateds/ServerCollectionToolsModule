@@ -52,7 +52,7 @@ Describe 'Get-OSCaptionOnPipeline.Tests' {
         }
 
         It 'Should have 1 new property' {
-            $MemberArray = $obj | Get-OSCaptionOnPipeline -NoErrorCheck | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name
+            $MemberArray = $obj | Get-OSCaptionOnPipeline | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name
             $MemberArray | Should -Contain 'OSVersion'
         }
     }
@@ -77,7 +77,7 @@ Describe 'Get-OSCaptionOnPipeline.Tests' {
         }
 
         It 'Should have 1 new property' {
-            $MemberArray = $obj | Get-OSCaptionOnPipeline -NoErrorCheck | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name
+            $MemberArray = $obj | Get-OSCaptionOnPipeline | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name
             $MemberArray | Should -Contain 'OSVersion'
         }
     }
@@ -102,7 +102,7 @@ Describe 'Get-OSCaptionOnPipeline.Tests' {
         }
 
         It 'Should have 1 new property' {
-            $MemberArray = $obj | Get-OSCaptionOnPipeline -NoErrorCheck | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name
+            $MemberArray = $obj | Get-OSCaptionOnPipeline | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name
             $MemberArray | Should -Contain 'OSVersion'
         }
     }
