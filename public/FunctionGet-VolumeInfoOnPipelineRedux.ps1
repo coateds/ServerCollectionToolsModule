@@ -43,10 +43,29 @@ Function Get-VolumeInfoOnPipelineRedux
         $PSItem | Select-Object *, Volumes, DriveType, Capacity, PctFree | ForEach-Object {
             If ((($PSItem.Ping) -and ($PSItem.WMI)) -or ($NoErrorCheck)) {
                 $Volumes = Get-CimInstance -ComputerName $PSItem.ComputerName -Query "Select DriveLetter,DriveType,Capacity,FreeSpace from Win32_Volume"
-                $PSItem.Volumes = $Volumes.DriveLetter
-                $PSItem.DriveType = $Volumes.DriveType
-                $PSItem.Capacity = [Math]::Round(($Volumes.Capacity / 1GB), 0)
-                $PSItem.PctFree = [Math]::Round($Volumes.FreeSpace/$Volumes.Capacity*100,1)
+                $PSItem.Volumes = $Volumes[0].DriveLetter
+                $PSItem.DriveType = $Volumes[0].DriveType
+                $PSItem.Capacity = [Math]::Round(($Volumes[0].Capacity / 1GB), 0)
+                $PSItem.PctFree = [Math]::Round($Volumes[0].FreeSpace/$Volumes[0].Capacity*100,1)
+                $PSItem
+
+                $Count = ($Volumes | Measure-Object).Count
+
+                If ($Count -gt 1){
+                    
+                    For ($i=1; $i -le $Count-1; $i++) {
+                        $PSItem.Volumes = $Volumes[$i].DriveLetter
+                        $PSItem.DriveType = $Volumes[$i].DriveType
+                        $PSItem.Capacity = [Math]::Round(($Volumes[$i].Capacity / 1GB), 0)
+                        $PSItem.PctFree = [Math]::Round($Volumes[$i].FreeSpace/$Volumes[$i].Capacity*100,1)
+                        New-Object PsObject $PSItem
+                    }
+                }
+            } Else {
+                $PSItem.Volumes = 'No Try'
+                $PSItem.Capacity = 'No Try'
+                $PSItem.DriveType = 'No Try'
+                $PSItem.PctFree = 'No Try'
                 $PSItem
             }
         }
