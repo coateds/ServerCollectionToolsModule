@@ -16,7 +16,7 @@ would then be tested. That does not seem necessary at this
 time.
 #>
 
-Describe 'FunctionGet-RCVolumeInfoOnPipeline.Tests - Returns one drive only' {
+Describe 'FunctionGet-VolumeInfoOnPipeline.Tests - Returns one drive only' {
     Context 'Returns one drive only' {
         BeforeAll {
             Import-Module "$PSScriptRoot\..\ServerCollectionToolsModule.psm1" -Force
@@ -196,7 +196,7 @@ Describe 'FunctionGet-RCVolumeInfoOnPipeline.Tests - Returns one drive only' {
         }
     }
 
-    Context 'FunctionGet-RCVolumeInfoOnPipeline.Tests - Returns multiple drives' {
+    Context 'FunctionGet-VolumeInfoOnPipeline.Tests - Returns multiple drives' {
         BeforeAll {
             #Import-Module "$PSScriptRoot\..\ServerCollectionToolsModule.psm1" -Force
 
@@ -257,6 +257,45 @@ Describe 'FunctionGet-RCVolumeInfoOnPipeline.Tests - Returns one drive only' {
                 $MemberArray | Should -Contain 'DriveType'
                 $MemberArray | Should -Contain 'Capacity'
                 $MemberArray | Should -Contain 'PctFree'
+            }
+        }
+    }
+
+    Context 'FunctionGet-VolumeInfoOnPipeline.Tests - Drive with zero capacity' {
+        Context 'Returns one drive only' {
+            BeforeAll {
+                Mock -CommandName Get-CimInstance -ModuleName ServerCollectionToolsModule -MockWith {
+                    return (
+                        @(
+                            [PSCustomObject]@{
+                                freespace=314892288
+                                capacity=0
+                                drivetype=3
+                                driveletter='C:'
+                            }
+                        )
+                    )
+                }
+            }
+
+            Context 'Output Test - No Error Checking' {
+                BeforeAll {
+                    $obj = [PSCustomObject]@{
+                        ComputerName = 'AnyServer'
+                    }
+                    $obj | Out-Null
+                
+                    $Actual = ($obj | Get-VolumeInfoOnPipelineRedux -NoErrorCheck)
+                    $Actual = $Actual[0]
+                }
+
+                It 'Should return a custom object' {
+                    $Actual | Should -BeOfType PSCustomObject
+                }
+
+                It 'Should have capacity less than 1 GB' {
+                    $Actual.Capacity | Should -Be 0
+                }
             }
         }
     }
