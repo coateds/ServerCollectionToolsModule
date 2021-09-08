@@ -21,7 +21,7 @@ Describe 'FunctionGet-RCVolumeInfoOnPipeline.Tests' {
             }
             $obj | Out-Null
 
-            $Actual = ($obj | Get-VolumeInfoOnPipeline -NoErrorCheck)
+            $Actual = ($obj | Get-VolumeInfoOnPipelineRedux -NoErrorCheck)
             $Actual | Out-Null
         }
 
@@ -46,7 +46,7 @@ Describe 'FunctionGet-RCVolumeInfoOnPipeline.Tests' {
             $Actual.PctFree | Should -Be 85.8
         }
 
-        It 'Should have 1 new property' {
+        It 'Should have 4 new properties' {
             $MemberArray = $Actual | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name
             $MemberArray | Should -Contain 'Volumes'
             $MemberArray | Should -Contain 'DriveType'
