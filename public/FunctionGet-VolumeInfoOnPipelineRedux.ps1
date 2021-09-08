@@ -52,7 +52,6 @@ Function Get-VolumeInfoOnPipelineRedux
                 $Count = ($Volumes | Measure-Object).Count
 
                 If ($Count -gt 1){
-                    
                     For ($i=1; $i -le $Count-1; $i++) {
                         $PSItem.Volumes = $Volumes[$i].DriveLetter
                         $PSItem.DriveType = $Volumes[$i].DriveType
