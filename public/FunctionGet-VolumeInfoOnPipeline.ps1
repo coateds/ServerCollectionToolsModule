@@ -59,7 +59,7 @@ Function Get-VolumeInfoOnPipeline
                     $PSItem.DriveType = $Volumes.DriveType
                     $PSItem.Capacity = [Math]::Round(($Volumes.Capacity / 1GB), 0)
                     $PSItem.PctFree = [Math]::Round($Volumes.FreeSpace/$Volumes.Capacity*100,1)
-                    $PSItem
+                    $PSItem[0]
                     If ($ReportMode){""}
                     #New-Object PSObject -Property @{}
                 }
