@@ -47,7 +47,7 @@ Describe 'FunctionGet-RCVolumeInfoOnPipeline.Tests' {
         }
 
         It 'Should have 1 new property' {
-            $MemberArray = $obj | Get-VolumeInfoOnPipeline -NoErrorCheck | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name
+            $MemberArray = $Actual | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name
             $MemberArray | Should -Contain 'Volumes'
             $MemberArray | Should -Contain 'DriveType'
             $MemberArray | Should -Contain 'Capacity'
