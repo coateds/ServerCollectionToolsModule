@@ -19,8 +19,8 @@ Function Get-VolumeInfoOnPipelineRedux
                 $Volumes = Get-CimInstance -ComputerName $PSItem.ComputerName -Query "Select DriveLetter,DriveType,Capacity,FreeSpace from Win32_Volume"
                 $PSItem.Volumes = $Volumes.DriveLetter
                 $PSItem.DriveType = $Volumes.DriveType
-                $PSItem.Capacity = [Math]::Round(($Volumes.Capacity / 1GB), 0)
-                $PSItem.PctFree = [Math]::Round($Volumes.FreeSpace/$Volumes.Capacity*100,1)
+                $PSItem.Capacity = $Volumes.Capacity #[Math]::Round(($Volumes.Capacity / 1GB), 0)
+                $PSItem.PctFree = $Volumes.FreeSpace #[Math]::Round($Volumes.FreeSpace/$Volumes.Capacity*100,1)
                 $PSItem
             }
         }
