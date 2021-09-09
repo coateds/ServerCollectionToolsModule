@@ -299,4 +299,43 @@ Describe 'FunctionGet-VolumeInfoOnPipeline.Tests - Returns one drive only' {
             }
         }
     }
+
+    Context 'FunctionGet-VolumeInfoOnPipeline.Tests - Drive with null capacity' {
+        Context 'Returns one drive only' {
+            BeforeAll {
+                Mock -CommandName Get-CimInstance -ModuleName ServerCollectionToolsModule -MockWith {
+                    return (
+                        @(
+                            [PSCustomObject]@{
+                                freespace=314892288
+                                capacity=$null
+                                drivetype=3
+                                driveletter='C:'
+                            }
+                        )
+                    )
+                }
+            }
+
+            Context 'Output Test - No Error Checking' {
+                BeforeAll {
+                    $obj = [PSCustomObject]@{
+                        ComputerName = 'AnyServer'
+                    }
+                    $obj | Out-Null
+                
+                    $Actual = ($obj | Get-VolumeInfoOnPipelineRedux -NoErrorCheck)
+                    $Actual = $Actual[0]
+                }
+
+                It 'Should return a custom object' {
+                    $Actual | Should -BeOfType PSCustomObject
+                }
+
+                It 'Should have capacity less than 1 GB' {
+                    $Actual.Capacity | Should -Be 0
+                }
+            }
+        }
+    }
 }

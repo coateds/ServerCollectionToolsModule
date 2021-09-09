@@ -46,8 +46,8 @@ Function Get-VolumeInfoOnPipelineRedux
                 $PSItem.Volumes = $Volumes[0].DriveLetter
                 $PSItem.DriveType = $Volumes[0].DriveType
                 $PSItem.Capacity = [Math]::Round(($Volumes[0].Capacity / 1GB), 0)
-                If ($Volumes[0].Capacity -eq 0) {
-                    $PSItem.PctFree = 0
+                If (($null -eq $Volumes[0].Capacity) -or ($Volumes[0].Capacity -eq 0)) {
+                    $PSItem.PctFree = $null
                 } else {
                     $PSItem.PctFree = [Math]::Round($Volumes[0].FreeSpace/$Volumes[0].Capacity*100,1)
                 }
@@ -60,8 +60,8 @@ Function Get-VolumeInfoOnPipelineRedux
                         $PSItem.Volumes = $Volumes[$i].DriveLetter
                         $PSItem.DriveType = $Volumes[$i].DriveType
                         $PSItem.Capacity = [Math]::Round(($Volumes[$i].Capacity / 1GB), 0)
-                        If ($Volumes[$i].Capacity -eq 0) {
-                            $PSItem.PctFree = 0
+                        If (($null -eq $Volumes[$i].Capacity) -or ($Volumes[$i].Capacity -eq 0)) {
+                            $PSItem.PctFree = $null
                         } else {
                             $PSItem.PctFree = [Math]::Round($Volumes[$i].FreeSpace/$Volumes[$i].Capacity*100,1)
                         }
