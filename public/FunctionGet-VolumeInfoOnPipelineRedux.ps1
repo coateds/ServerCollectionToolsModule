@@ -43,6 +43,7 @@ Function Get-VolumeInfoOnPipelineRedux
         $PSItem | Select-Object *, Volumes, DriveType, Capacity, PctFree | ForEach-Object {
             If ((($PSItem.Ping) -and ($PSItem.WMI)) -or ($NoErrorCheck)) {
                 $Volumes = Get-CimInstance -ComputerName $PSItem.ComputerName -Query "Select DriveLetter,DriveType,Capacity,FreeSpace from Win32_Volume"
+                $PSItem.Volumes = $PSItem.DriveType = $PSItem.Capacity = $PSItem.PctFree = $null
                 $PSItem.Volumes = $Volumes[0].DriveLetter
                 $PSItem.DriveType = $Volumes[0].DriveType
                 $PSItem.Capacity = [Math]::Round(($Volumes[0].Capacity / 1GB), 0)
@@ -57,6 +58,7 @@ Function Get-VolumeInfoOnPipelineRedux
 
                 If ($Count -gt 1){
                     For ($i=1; $i -le $Count-1; $i++) {
+                        $PSItem.Volumes = $PSItem.DriveType = $PSItem.Capacity = $PSItem.PctFree = $null
                         $PSItem.Volumes = $Volumes[$i].DriveLetter
                         $PSItem.DriveType = $Volumes[$i].DriveType
                         $PSItem.Capacity = [Math]::Round(($Volumes[$i].Capacity / 1GB), 0)
