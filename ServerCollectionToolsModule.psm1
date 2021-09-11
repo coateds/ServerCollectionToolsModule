@@ -9,6 +9,11 @@ Get-ChildItem "$PSScriptRoot\private" | ForEach-Object {
     . $PSItem.FullName
 }
 
+Get-ChildItem "$PSScriptRoot\public" | ForEach-Object {
+    Export-ModuleMember -Function $PSItem.BaseName.Replace('Function', '')
+}
+
+
 #. "$PSScriptRoot\public\FunctionGet-ServerObjectCollection.ps1"
 #. "$PSScriptRoot\public\FunctionGet-ServerCollection.ps1"
 #. "$PSScriptRoot\public\FunctionTest-ServerConnectionOnPipeline.ps1"
