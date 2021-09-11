@@ -42,7 +42,7 @@ Describe 'FunctionGet-VolumeInfoOnPipeline.Tests - Returns one drive only' {
                 }
                 $obj | Out-Null
 
-                $Actual = ($obj | Get-VolumeInfoOnPipelineRedux -NoErrorCheck)
+                $Actual = ($obj | Get-VolumeInfoOnPipeline -NoErrorCheck)
                 $Actual = $Actual[0]
             }
 
@@ -82,7 +82,7 @@ Describe 'FunctionGet-VolumeInfoOnPipeline.Tests - Returns one drive only' {
                     Ping = $true
                     WMI = $true
                 }
-                $Actual = ($obj | Get-VolumeInfoOnPipelineRedux)
+                $Actual = ($obj | Get-VolumeInfoOnPipeline)
                 $Actual = $Actual[0]
             }
 
@@ -122,7 +122,7 @@ Describe 'FunctionGet-VolumeInfoOnPipeline.Tests - Returns one drive only' {
                     Ping = $false
                     WMI = $true
                 }
-                $Actual = ($obj | Get-VolumeInfoOnPipelineRedux)
+                $Actual = ($obj | Get-VolumeInfoOnPipeline)
                 $Actual = $Actual[0]
             }
 
@@ -162,7 +162,7 @@ Describe 'FunctionGet-VolumeInfoOnPipeline.Tests - Returns one drive only' {
                     Ping = $true
                     WMI = $false
                 }
-                $Actual = ($obj | Get-VolumeInfoOnPipelineRedux)
+                $Actual = ($obj | Get-VolumeInfoOnPipeline)
                 $Actual = $Actual[0]
             }
 
@@ -227,7 +227,7 @@ Describe 'FunctionGet-VolumeInfoOnPipeline.Tests - Returns one drive only' {
                 }
                 $obj | Out-Null
             
-                $Actual = ($obj | Get-VolumeInfoOnPipelineRedux -NoErrorCheck)
+                $Actual = ($obj | Get-VolumeInfoOnPipeline -NoErrorCheck)
                 $Actual = $Actual[0]
             }
 
@@ -285,7 +285,7 @@ Describe 'FunctionGet-VolumeInfoOnPipeline.Tests - Returns one drive only' {
                     }
                     $obj | Out-Null
                 
-                    $Actual = ($obj | Get-VolumeInfoOnPipelineRedux -NoErrorCheck)
+                    $Actual = ($obj | Get-VolumeInfoOnPipeline -NoErrorCheck)
                     $Actual = $Actual[0]
                 }
 
@@ -324,7 +324,7 @@ Describe 'FunctionGet-VolumeInfoOnPipeline.Tests - Returns one drive only' {
                     }
                     $obj | Out-Null
                 
-                    $Actual = ($obj | Get-VolumeInfoOnPipelineRedux -NoErrorCheck)
+                    $Actual = ($obj | Get-VolumeInfoOnPipeline -NoErrorCheck)
                     $Actual = $Actual[0]
                 }
 

@@ -17,16 +17,15 @@ Function Get-VolumeInfoOnPipeline
 
             Use the -ReportMode switch to provision a new empty row for all added rows. This is more readable.
         .EXAMPLE
-            Get-RCServerCollection | Test-RCServerConnectionOnPipeline | Get-RCProcInfoOnPipeline | Get-RCVolumeInfoOnPipeline -ReportMOde | Select ComputerName,TotalProcs,ProcName,Cores,Volumes,DriveType,Capacity,PctFree | ft -autosize
+            Get-ServerCollection | Test-ServerConnectionOnPipeline | Get-ProcInfoOnPipeline | Get-VolumeInfoOnPipeline -ReportMOde | Select ComputerName,TotalProcs,ProcName,Cores,Volumes,DriveType,Capacity,PctFree | ft -autosize
             A Sampling of Functions and Columns in ReportMode
         .EXAMPLE
-            Get-RCServerCollection | Test-RCServerConnectionOnPipeline | Get-RCProcInfoOnPipeline | Get-RCVolumeInfoOnPipeline | Select ComputerName,TotalProcs,Cores,Volumes,DriveType,Capacity,PctFree | Where PctFree -gt 95 | ft -autosize
+            Get-ServerCollection | Test-ServerConnectionOnPipeline | Get-ProcInfoOnPipeline | Get-VolumeInfoOnPipeline | Select ComputerName,TotalProcs,Cores,Volumes,DriveType,Capacity,PctFree | Where PctFree -gt 95 | ft -autosize
             Gets all of the drives either over or under a threshold. IN this case % free greater than 95%
         .EXAMPLE
-            Get-RCServerCollection | Test-RCServerConnectionOnPipeline | Get-RCOSCaptionOnPipeline | Get-RCTimeZoneOnPipeline | Get-RCTotalMemoryOnPipeline | Get-RCMachineModelOnPipeline | Get-RCProcInfoOnPipeline | Get-RCVolumeInfoOnPipeline -ReportMOde | Select ComputerName,OSVersion,TotalMemory,MachineModel,TotalProcs,ProcName,Cores,Volumes,DriveType,Capacity,PctFree | Where DriveType -eq 3 | Export-Csv -path .\ServerSpecs.csv -NoTypeInformation
+            Get-ServerCollection | Test-ServerConnectionOnPipeline | Get-OSCaptionOnPipeline | Get-TimeZoneOnPipeline | Get-TotalMemoryOnPipeline | Get-MachineModelOnPipeline | Get-ProcInfoOnPipeline | Get-VolumeInfoOnPipeline -ReportMOde | Select ComputerName,OSVersion,TotalMemory,MachineModel,TotalProcs,ProcName,Cores,Volumes,DriveType,Capacity,PctFree | Where DriveType -eq 3 | Export-Csv -path .\ServerSpecs.csv -NoTypeInformation
             Gets a nice specs report and outputs it to a CSV file in the working directory
     #>
-
     [CmdletBinding()]
 
     Param (
@@ -35,90 +34,43 @@ Function Get-VolumeInfoOnPipeline
         ValueFromPipeline= $true)]
         $ComputerProperties,
         [switch]
-        $NoErrorCheck,
-        [switch]
-        $ReportMode
+        $NoErrorCheck
     )
 
     Process {
         $ComputerProperties | Out-Null
         $NoErrorCheck | Out-Null
-        $ReportMode | Out-Null
         $PSItem | Select-Object *, Volumes, DriveType, Capacity, PctFree | ForEach-Object {
             If ((($PSItem.Ping) -and ($PSItem.WMI)) -or ($NoErrorCheck)) {
-                # When there is only one drive $Volumes.Count will be null
-                # Otherwise we will use it to determine how many rows to add
-
-                If ($null -eq $PSitem) {Write-Warning "PSItem is Null!"}
-
                 $Volumes = Get-CimInstance -ComputerName $PSItem.ComputerName -Query "Select DriveLetter,DriveType,Capacity,FreeSpace from Win32_Volume"
-
-                If ($null -eq $Volumes.Count) {
-                    #Write-Warning "Mock one should get here"
-                    $PSItem.Volumes = $Volumes.DriveLetter
-                    $PSItem.DriveType = $Volumes.DriveType
-                    $PSItem.Capacity = [Math]::Round(($Volumes.Capacity / 1GB), 0)
-                    $PSItem.PctFree = [Math]::Round($Volumes.FreeSpace/$Volumes.Capacity*100,1)
-                    $PSItem
-                    If ($ReportMode){""}
-                    #New-Object PSObject -Property @{}
+                $PSItem.Volumes = $PSItem.DriveType = $PSItem.Capacity = $PSItem.PctFree = $null
+                $PSItem.Volumes = $Volumes[0].DriveLetter
+                $PSItem.DriveType = $Volumes[0].DriveType
+                $PSItem.Capacity = [Math]::Round(($Volumes[0].Capacity / 1GB), 0)
+                If (($null -eq $Volumes[0].Capacity) -or ($Volumes[0].Capacity -eq 0)) {
+                    $PSItem.PctFree = $null
+                } else {
+                    $PSItem.PctFree = [Math]::Round($Volumes[0].FreeSpace/$Volumes[0].Capacity*100,1)
                 }
+                $PSItem
 
-                # There is more than one drive
-                Else {
-                    $Count = $Volumes.Count - 1
-                    For ($i=0; $i -le $Count; $i++) {
-                        If ($null -eq $Volumes[$i]) {Write-Warning "Volumes[$i] is Null!"}
+                $Count = ($Volumes | Measure-Object).Count
 
-                        # For the first drive just fill in the normal row with the [0] (first) Value
-                        If ($i -eq 0) {
-                            #Write-Warning $PSItem
-                            $PSItem.Volumes = $Volumes[$i].DriveLetter
-                            $PSItem.DriveType = $Volumes[$i].DriveType
-                            $PSItem.Capacity = [Math]::Round(($Volumes[$i].Capacity / 1GB), 0)
+                If ($Count -gt 1){
+                    For ($i=1; $i -le $Count-1; $i++) {
+                        $PSItem.Volumes = $PSItem.DriveType = $PSItem.Capacity = $PSItem.PctFree = $null
+                        $PSItem.Volumes = $Volumes[$i].DriveLetter
+                        $PSItem.DriveType = $Volumes[$i].DriveType
+                        $PSItem.Capacity = [Math]::Round(($Volumes[$i].Capacity / 1GB), 0)
+                        If (($null -eq $Volumes[$i].Capacity) -or ($Volumes[$i].Capacity -eq 0)) {
+                            $PSItem.PctFree = $null
+                        } else {
                             $PSItem.PctFree = [Math]::Round($Volumes[$i].FreeSpace/$Volumes[$i].Capacity*100,1)
-                            $PSItem
-
-                            #Write-Warning "Zero"
                         }
-                        # For all subsequent rows a new (blank or copied) row must be created
-                        Else {
-                            # Calculate PctFree
-                            $PctFree = ""
-                            If ($Volumes[$i].DriveType -eq 3) {
-                                Try
-                                {$PctFree = [Math]::Round($Volumes[$i].FreeSpace/$Volumes[$i].Capacity*100,1)}
-                                Catch {$null}
-                            }
-
-                            If ($ReportMode) {
-                                # Here a brand new row is built without all of the other deatils
-                                New-Object PSObject -Property @{
-                                    # ComputerName = $PSItem.ComputerName
-                                    Volumes = $Volumes[$i].DriveLetter
-                                    Capacity = [Math]::Round(($Volumes[$i].Capacity / 1GB), 0)
-                                    DriveType = $Volumes[$i].DriveType
-                                    PctFree = $PctFree
-                                }
-                            }
-                            Else {
-                                # In this case a new row is built from a copy of the current row
-                                # This preserves the full details
-                                # Write-Warning $PSItem
-                                $PSItem.Volumes = $Volumes[$i].DriveLetter
-                                $PSItem.Capacity = [Math]::Round(($Volumes[$i].Capacity / 1GB), 0)
-                                $PSItem.DriveType = $Volumes[$i].DriveType
-                                $PSItem.PctFree = $PctFree
-                                New-Object PsObject $PSItem
-                                # Write-Warning "Add new row: $i"
-                            }
-                        }
-                    } # End Loop
-                    If ($ReportMode){""}
-                    New-Object PSObject -Property @{}
+                        New-Object PsObject $PSItem
+                    }
                 }
-            }
-            Else {
+            } Else {
                 $PSItem.Volumes = 'No Try'
                 $PSItem.Capacity = 'No Try'
                 $PSItem.DriveType = 'No Try'

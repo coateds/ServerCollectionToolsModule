@@ -1,0 +1,17 @@
+# ToDo Phase one
+* Glean from PowerShellModuleProject and Delete
+  * azure-pipelines.yml
+* Study and build out other pipeline stages
+  * Build Stage -> 
+    * Produces an Artifact
+      * NuGetPackage
+      * PowerShellModuleProject.0.0.25.nupkg
+    * Artifact does not go anywhere?
+  * Test (Pester) stage - Largely understood
+    * Last Pester Tests are done
+  * Deploy stage
+    * Takes artifact from build stage and ??
+* Add One more WMI based function and Tests (Copy from RC)
+* Complete Test-ServerConnection Tests
+* Build Story
+* Publish to PowerShell Gallary
